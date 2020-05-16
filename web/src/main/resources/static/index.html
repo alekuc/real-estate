@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<h1>Filter</h1>
+<form action="#" th:action="@{/real-estate}" th:object="${filter}" method="post">
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Min</th>
+            <th>Max</th>
+        </tr>
+        <tr>
+            <td>Area</td>
+            <td><input type="number" th:field="*{areaFrom}" min="0" /></td>
+            <td><input type="number" th:field="*{areaUntil}" min="0"/></td>
+        </tr>
+        <tr>
+            <td>Year</td>
+            <td><input type="number" th:field="*{yearFrom}" min="0" /></td>
+            <td><input type="number" th:field="*{yearUntil}" min="0"/></td>
+        </tr>
+        <tr>
+            <td>Number of rooms</td>
+            <td><input type="number" th:field="*{numberOfRoomsFrom}" min="0" /></td>
+            <td><input type="number" th:field="*{numberOfRoomsUntil}" min="0"/></td>
+        </tr>
+        <tr>
+            <td>Floor</td>
+            <td><input type="number" th:field="*{floorFrom}" min="0" /></td>
+            <td><input type="number" th:field="*{floorUntil}" min="0"/></td>
+        </tr>
+        <tr>
+            <td>Total floor</td>
+            <td><input type="number" th:field="*{totalBuildingFloorsFrom}" min="0" /></td>
+            <td><input type="number" th:field="*{totalBuildingFloorsUntil}" min="0"/></td>
+        </tr>
+        <tr>
+            <td>District</td>
+            <td>
+                <select th:field="*{districts}" size="15" multiple="multiple">
+                    <option th:each="district : ${uniqueDistrict}"
+                            th:value="${{district}}"
+                            th:selected="${filter.districts.contains(district)}"
+                            th:text="${district}">
+                    </option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <p><input type="submit" value="Filter" /></p>
+</form>
+
+<div id="chartContainer1"/>
+</body>
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+
+    /*<![CDATA[*/
+    //the list converts as a javascript object
+    var jsonAverages = /*[[${averages}]]*/;
+    console.log(jsonAverages);
+    /*]]>*/
+
+    var convertedAverages = [];
+
+    for(var i=0; i<jsonAverages.length; i++) {
+        convertedAverages.push({x:new Date(jsonAverages[i].date), y:jsonAverages[i].average});
+    }
+
+    var chart = new CanvasJS.Chart("chartContainer1",
+    {
+        animationEnabled: true,
+        title: {
+            text: "Vilnius Real Estate Price Chart"
+        },
+        axisX: {
+            interval: 10,
+        },
+        data: [
+        {
+            type: "splineArea",
+            color: "rgba(255,12,32,.3)",
+            dataPoints: convertedAverages
+        },
+        ]
+    });
+chart.render();
+
+</script>
