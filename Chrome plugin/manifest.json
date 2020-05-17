@@ -1,0 +1,17 @@
+  {
+    "name": "real_estate chrome plugin",
+    "version": "1.0",
+    "description": "Helps avoid scams",
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    },    
+    "permissions": ["declarativeContent", "storage", "http://*/"],
+    "content_scripts": [
+      {
+        "matches": ["https://www.aruodas.lt/*"],
+        "js": ["content-script.js"]
+      }
+    ],
+    "manifest_version": 2
+  }
