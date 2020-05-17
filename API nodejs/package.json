@@ -1,0 +1,14 @@
+{
+    "name": "realestate_node_backend",
+    "version": "1.0.0",
+    "description": "realestate backend on Docker",
+    "author": "Tomas Vardanian <tomas.vardanian@gmail.com>",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.16.1",
+      "mysql": "2.18.1"
+    }
+  }
